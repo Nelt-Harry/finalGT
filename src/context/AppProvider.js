@@ -81,17 +81,24 @@ class _Linklist {
         const array = [];
         let temp = this.head;
         let temp2 = this.head;
-        let i = 0;
-        for (temp; temp != null; temp = temp.next) {
-            i++;
-            temp2 = temp;
-            while (i >= index1 && i <= index1 + index2) {
-                const element = temp.data;
-                temp = temp.next;
-                array.push(element);
+        if (index1 !== 0) {
+            let i = 0;
+            for (temp; temp != null; temp = temp.next) {
                 i++;
+                temp2 = temp;
+                while (i >= index1 && i < index1 + index2) {
+                    const element = temp.data;
+                    temp = temp.next;
+                    array.push(element);
+                    i++;
+                }
+                temp2.next = temp.next;
             }
-            temp2.next = temp.next;
+        } else {
+            for (let i = 0; i < index2; i++) {
+                temp = temp.next;
+            }
+            this.head = temp;
         }
         return array;
     }
@@ -114,6 +121,27 @@ class _Linklist {
             array.push(temp.data);
         }
         return array;
+    }
+
+    sort(callback) {
+        let temp = this.head;
+        let temp2 = new _Node();
+        for (temp; temp != null; temp = temp.next) {
+            for (temp2 = temp.next; temp2 != null; temp2 = temp2.next) {
+                const check = callback(temp, temp2);
+                if (check > 0) {
+                    let tmp = Object.assign({}, temp2.data);
+                    temp2.data = Object.assign({}, temp.data);
+                    temp.data = Object.assign({}, tmp);
+                } else {
+                    if (check < 0) {
+                        let tmp = Object.assign({}, temp.data);
+                        temp.data = Object.assign({}, temp2.data);
+                        temp2.data = Object.assign({}, tmp);
+                    }
+                }
+            }
+        }
     }
 }
 

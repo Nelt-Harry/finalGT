@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Question } from "../components/Question";
+import { AppContext } from "../context/AppProvider";
 import { Input } from "./Input";
 
 const ListQuestion = (props) => {
@@ -13,38 +14,65 @@ const ListQuestion = (props) => {
     const refContainer = useRef(initalData);
     const [listQuestion, setListQuestion] = useState(refContainer.current);
 
+    const { _Node, _Linklist } = React.useContext(AppContext);
+    const llQuestion = new _Linklist();
+
     useEffect(() => {
-        props.listQuestion
-            ? setListQuestion(props.listQuestion)
-            : setListQuestion(refContainer.current);
-    }, [props.listQuestion]);
+        if (props.listQuestion) {
+            for (let i = 0; i < props.listQuestion.question.length; i++) {
+                const node = new _Node(props.listQuestion.question[i]);
+                llQuestion.push(node);
+            }
+        } else {
+            const node = new _Node(initalData.question[0]);
+            llQuestion.push(node);
+        }
+    });
 
     const updateListQuestion = (type, value, index) => {
         const newListQuestion = { ...listQuestion };
 
         switch (type) {
-            case "LIST":
-                newListQuestion.question[index] = value;
-                break;
             case "NAME":
                 newListQuestion.name = value;
                 break;
+            case "LIST":
+                const newQuestion = llQuestion.at(index);
+
+                newQuestion.question = value.question;
+                newQuestion.correctAns = value.correctAns;
+                newQuestion.answers = value.answers;
+                newQuestion.image = value.image;
+
+                newListQuestion.question = llQuestion.toArray();
+                break;
             case "DEL":
-                newListQuestion.question.splice(index, 1);
+                llQuestion.splice(index, 1);
+
+                newListQuestion.question = llQuestion.toArray();
                 break;
             case "ADD":
-                newListQuestion.question.push({
+                const node = new _Node({
                     question: "",
                     answers: [""],
-                    correctAns: " ",
+                    correctAns: null,
                     image: null,
                 });
+
+                llQuestion.push(node);
+                newListQuestion.question = llQuestion.toArray();
                 break;
             default:
                 break;
         }
-        props.setList(newListQuestion);
+        props.setList({ ...newListQuestion });
     };
+
+    useEffect(() => {
+        props.listQuestion
+            ? setListQuestion(props.listQuestion)
+            : setListQuestion(refContainer.current);
+    }, [props.listQuestion]);
 
     const confirmDelete = () => {
         if (window.confirm("You want to DELETE this course ?")) {
@@ -62,12 +90,30 @@ const ListQuestion = (props) => {
         }
     };
 
+    const checkValid = (item) => {
+        if (
+            item.question === "" ||
+            item.answers === [] ||
+            item.correctAns === null
+        ) {
+            return 1;
+        }
+        return 0;
+    };
+
     const saveListQuestion = () => {
         const validate = validateList();
         if (validate) {
             props.setListCourse("SAVE");
         } else {
             alert("Bộ câu hỏi không hợp lệ");
+            const newListQuestion = { ...listQuestion };
+
+            newListQuestion.question = listQuestion.question.sort((a, b) => {
+                return checkValid(b) - checkValid(a);
+            });
+
+            props.setList({ ...newListQuestion });
         }
     };
 
