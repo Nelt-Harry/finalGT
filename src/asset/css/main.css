@@ -1,0 +1,46 @@
+* {
+    box-sizing: inherit;
+    margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+}
+.main {
+    display: flex;
+}
+a {
+    text-decoration: none;
+    color: unset;
+}
+.container {
+    padding-top: 64px;
+    margin: auto;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    min-width: 1200px;
+    overflow: hidden;
+}
+:root {
+    --box-shadow: rgba(0, 0, 0, 0.7) 0px 4px 10px;
+    --primary-color: #005282;
+    --secondary-color: #141e30;
+    --white-color: #fff;
+}
+@import "./cssLibrary.css";
+@import "./home.css";
+@import "./header.css";
+@import "./login.css";
+@import "./admin.css";
+@import "./input.css";
+@import "./excercise.css";
+@import "./sidebar.css";
+@import "./question.css";
+@import "./viewpointmodal.css";
+@import "./fontawesome-free-5.15.4-web/css/all.min.css";
+@import "./owlcarousel/Assets/owl.carousel.min.css";
+@import "./owlcarousel/Assets/owl.theme.default.css";

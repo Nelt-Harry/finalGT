@@ -1,0 +1,29 @@
+.view-point-modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+}
+.view-point-modal-container {
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    position: absolute;
+    top: 30%;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 2;
+    box-shadow: var(--box-shadow);
+    display: flex;
+}
+.view-point-modal-container div {
+    margin: auto;
+}
+
+.view-point-modal-txt {
+    font-size: 20px;
+    padding-bottom: 30px;
+}

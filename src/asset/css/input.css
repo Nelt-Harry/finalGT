@@ -1,0 +1,17 @@
+.Input {
+    font-family: "Roboto", sans-serif;
+    border: none;
+    font-size: 1.6rem;
+    width: 100%;
+    outline: none;
+    line-height: 2.3rem;
+    padding: 10px;
+    margin: 0;
+    resize: none;
+    padding: 10px 0 10px 20px;
+    position: relative;
+}
+
+.Input:focus-visible {
+    border: 1px solid red;
+}
